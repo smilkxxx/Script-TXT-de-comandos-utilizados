@@ -1,0 +1,54 @@
+# PRACTICA 1 - Servidor HTTP con Apache2
+
+# 1. Instalar Apache
+sudo apt update
+sudo apt install apache2 -y
+
+# 2. Crear el primer sitio: pagina1
+sudo mkdir -p /var/www/pagina1
+sudo nano /var/www/pagina1/index.html
+
+# Contenido de index.html:
+<!DOCTYPE html>
+<html>
+<head><title>Hola Mundo</title></head>
+<body><h1>Hola Mundo</h1></body>
+</html>
+
+# 3. Configurar VirtualHost para pagina1
+sudo nano /etc/apache2/sites-available/pagina1.conf
+
+# Contenido:
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/pagina1
+    ServerName pagina1.local
+    ErrorLog ${APACHE_LOG_DIR}/error_pagina1.log
+    CustomLog ${APACHE_LOG_DIR}/access_pagina1.log combined
+</VirtualHost>
+
+# 4. Activar sitio pagina1
+sudo ln -s /etc/apache2/sites-available/pagina1.conf /etc/apache2/sites-enabled/pagina1.conf
+
+# 5. Agregar pagina1.local al archivo hosts
+sudo nano /etc/hosts
+# Agrega esta línea:
+127.0.0.1 pagina1.local
+
+# 6. Crear el segundo sitio: datos
+sudo mkdir -p /var/www/datos
+sudo nano /var/www/datos/index.html
+
+# Contenido de index.html:
+<!DOCTYPE html>
+<html>
+<head><title>Datos Del Estudiante</title></head>
+<body>
+    <h1>Nombre: Alvaro Baez</h1>
+    <p>Matricula: 20211150</p>
+    <p>Materia: Sistemas Operativos III</p>
+</body>
+</html>
+
+# 7. Crear archivo VirtualHost para datos (puerto 8080)
+sudo nano /etc/apache2/sites-available/datos.conf
